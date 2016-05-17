@@ -1,4 +1,5 @@
 var initialRepositoryState = [];
+var actions = require('./actions');
 
 var repositoryReducer = function(state, action) {
   state = state || initialRepositoryState;
