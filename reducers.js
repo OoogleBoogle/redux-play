@@ -2,9 +2,12 @@ var initialRepositoryState = [];
 var actions = require('./actions');
 
 var repositoryReducer = function(state, action) {
+  console.log('reducer running');
   state = state || initialRepositoryState;
+  console.log('state', state);
   if (action.type === actions.ADD_REPOSITORY) {
-    return state.concat({name: action.repository, rating: null});
+    console.log('actionrep', action.repository);
+    return state.concat({name: action.repository.full_name, description: action.repository.description, rating: null});
   }
 
   else if (action.type === actions.RATE_REPOSITORY) {
@@ -27,8 +30,11 @@ var repositoryReducer = function(state, action) {
 
   else if (action.type === actions.FETCH_DESCRIPTION_SUCCESS) {
     var index = -1;
+    console.log(state);
     for (var i=0; i<state.length; i++) {
         var repository = state[i];
+        // console.log('reponame', repository.name);
+        // console.log('actionrepo', action.repository);
         if (repository.name === action.repository) {
             index = i;
             break;
@@ -57,6 +63,8 @@ var repositoryReducer = function(state, action) {
               break;
           }
       }
+
+      console.log('hello');
 
       if (index === -1) {
           throw new Error('Could not find repository');
