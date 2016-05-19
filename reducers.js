@@ -28,48 +28,49 @@ var repositoryReducer = function(state, action) {
   else if (action.type === actions.FETCH_DESCRIPTION_SUCCESS) {
     var index = -1;
     for (var i=0; i<state.length; i++) {
-      var repository = state[i];
-      if (repository.name === action.repository) {
-        index = i;
-        break;
-      }
+        var repository = state[i];
+        if (repository.name === action.repository) {
+            index = i;
+            break;
+        }
     }
 
+    console.log('SUCCESS!!');
+
     if (index === -1) {
-      throw new Error('Could not find repository');
+        throw new Error('Could not find repository');
     }
 
     var before = state.slice(0, i);
     var after = state.slice(i + 1);
     var newRepository = Object.assign({}, repository, {
-      description: action.description
+        description: action.description
     });
     return before.concat(newRepository, after);
   }
-
   else if (action.type === actions.FETCH_DESCRIPTION_ERROR) {
-    var index = -1;
-    for (var i=0; i<state.length; i++) {
-      var repository = state[i];
-      if (repository.name === action.repository) {
-        index = i;
-        break;
+      var index = -1;
+      for (var i=0; i<state.length; i++) {
+          var repository = state[i];
+          if (repository.name === action.repository) {
+              index = i;
+              break;
+          }
       }
-    }
 
-    if (index === -1) {
-      throw new Error('Could not find repository');
-    }
+      if (index === -1) {
+          throw new Error('Could not find repository');
+      }
 
-    var before = state.slice(0, i);
-    var after = state.slice(i + 1);
-    var newRepository = Object.assign({}, repository, {
-      description: 'N/A'
-    });
-    return before.concat(newRepository, after);
+      var before = state.slice(0, i);
+      var after = state.slice(i + 1);
+      var newRepository = Object.assign({}, repository, {
+          description: 'N/A'
+      });
+      return before.concat(newRepository, after);
   }
-  return state;
-}
 
+  return state;
+  };
 
 exports.repositoryReducer = repositoryReducer;

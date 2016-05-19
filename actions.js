@@ -36,32 +36,32 @@ var fetchDescriptionError = function(repository, error) {
 };
 
 var fetchDescription = function(repository) {
-  console.log(repository);
-  return function(dispatch) {
-    var url = 'https://api.github.com/repos/' +  repository;
-    return fetch(url).then(function(response) {
-      if (response.state < 200 || response.status >= 300) {
-        var error = new Error(response.statusText);
-        error.response = response
-        throw error;
-      }
-      return response;
-    })
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      var description = data.description;
-      return dispatch(
-        fetchDescriptionSuccess(respository, description)
-      );
-    })
-    .catch(function(error) {
-      return dispatch(
-        fetchDescriptionError(repository, error)
-      );
-    });
-  }
+    return function(dispatch) {
+        var url = 'https://api.github.com/repos/' + repository;
+        return fetch(url).then(function(response) {
+            if (response.state < 200 || response.status >= 300) {
+                var error = new Error(response.statusText)
+                error.response = response
+                throw error;
+            }
+            return response;
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            var description = data.description;
+            return dispatch(
+                fetchDescriptionSuccess(repository, description)
+            );
+        })
+        .catch(function(error) {
+            console.log('errorerror', error);
+            return dispatch(
+                fetchDescriptionError(repository, error)
+            );
+        });
+    }
 };
 
 exports.ADD_REPOSITORY = ADD_REPOSITORY;
