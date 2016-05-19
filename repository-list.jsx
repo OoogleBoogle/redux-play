@@ -5,20 +5,21 @@ var actions = require('./actions');
 var Repository = require('./repository');
 
 var RepositoryList = React.createClass({
-  addRepository: function() {
+  fetchDescription: function() {
     var repositoryName = this.refs.repositoryName.value;
-    this.props.dispatch(actions.addRepository(repositoryName));
+    this.props.dispatch(actions.fetchDescription(repositoryName));
   },
 
   render: function() {
+    console.log(this.props);
     var repositories = this.props.repositories.map(function(repository) {
-      return <Repository repository={repository} key={repository.name} />;
+      return <Repository repository={repository} key={repository.name} description={repository.description} />;
     });
     return (
       <div className="repository-list">
         {repositories}
         <input type="text" ref="repositoryName" />
-        <button type="button" onClick={this.addRepository}>Add Repo</button>
+        <button type="button" onClick={this.fetchDescription}>Add Repo</button>
       </div>
     );
   }
